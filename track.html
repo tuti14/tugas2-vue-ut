@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracking Pengiriman - Universitas Terbuka</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Global CSS -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    
+    <style>
+        /* --- HEADER SECTION --- */
+        .header-section { 
+            margin-bottom: 24px; 
+            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .header-section h2 { 
+            color: var(--primary-blue, #002d62); 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            margin: 0 0 8px 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .header-section p { 
+            font-size: 0.95rem; 
+            color: #64748b; 
+            margin: 0;
+        }
+
+        /* --- NOTIFICATION / ALERT --- */
+        .alert-success-custom {
+            background-color: #f0fdf4; 
+            border: 1px solid #bbf7d0; 
+            padding: 16px; 
+            border-radius: 12px; 
+            margin-bottom: 24px;
+        }
+        .alert-success-custom h4 {
+            color: #166534; 
+            margin: 0 0 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .alert-success-custom p {
+            color: #14532d; 
+            margin: 0 0 12px 0; 
+            font-size: 0.9rem;
+        }
+        .do-badge-display {
+            font-family: monospace; 
+            font-size: 1.25rem; 
+            font-weight: 700; 
+            background: white; 
+            padding: 8px 16px; 
+            border-radius: 6px; 
+            border: 1px solid #bbf7d0; 
+            color: #15803d; 
+            display: inline-block;
+        }
+
+        /* --- LAYOUT CONFIGURATION --- */
+        .do-grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+            margin-bottom: 24px;
+        }
+
+        /* --- CARD STYLES --- */
+        .card { 
+            background: #ffffff; 
+            border-radius: 12px; 
+            padding: 24px; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03); 
+            margin-bottom: 24px; 
+            border: 1px solid #e2e8f0; 
+            box-sizing: border-box;
+        }
+
+        .card-title { 
+            font-weight: 700; 
+            margin-bottom: 20px; 
+            font-size: 1.05rem;
+            color: var(--primary-blue, #002d62);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 12px;
+            margin-top: 0;
+        }
+
+        /* --- FORM ELEMENT STYLES --- */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary-blue, #002d62);
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-sizing: border-box;
+            background-color: #fff;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary-blue, #004b93);
+            box-shadow: 0 0 0 3px rgba(0, 75, 147, 0.15);
+        }
+
+        .form-control-disabled {
+            background-color: #f1f5f9;
+            color: #64748b;
+            cursor: not-allowed;
+            border-color: #e2e8f0;
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary-blue, #002d62);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-action:hover {
+            background: var(--secondary-blue, #004b93);
+            transform: translateY(-1px);
+        }
+
+        /* --- PANEL DETAIL PAKET --- */
+        .paket-detail-box {
+            background: linear-gradient(to right, #f8fafc, #f1f5f9);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 0.88rem;
+            border-left: 4px solid #eab308;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.01);
+        }
+
+        .paket-detail-box ul {
+            margin: 8px 0 12px 0;
+            padding-left: 20px;
+            color: #334155;
+        }
+
+        .paket-detail-box li {
+            margin-bottom: 6px;
+        }
+
+        /* --- LIST DAFTAR DO --- */
+        .order-item {
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between;
+            gap: 16px; 
+            padding: 14px 0; 
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-right { 
+            display: flex; 
+            align-items: center; 
+            gap: 14px; 
+        }
+
+        .order-icon { 
+            width: 40px; 
+            height: 40px; 
+            background: var(--primary-subtle); 
+            border-radius: 8px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue); 
+            flex-shrink: 0;
+        }
+
+        .order-info strong { 
+            font-size: 0.9rem; 
+            display: block;
+            color: var(--primary-blue, #002d62);
+        }
+
+        .order-info p { 
+            font-size: 0.8rem; 
+            margin: 2px 0 0 0;
+            color: #475569;
+        }
+
+        .status-badge { 
+            padding: 6px 12px; 
+            border-radius: 20px; 
+            font-size: 0.7rem; 
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .lihat-semua {
+            display: block; 
+            text-align: center; 
+            color: var(--primary-blue, #002d62); 
+            font-size: 0.85rem; 
+            font-weight: 700;
+            margin-top: 16px;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .lihat-semua:hover { 
+            color: var(--secondary-blue, #004b93); 
+            text-decoration: underline;
+        }
+
+        /* --- SEARCH BOX AREA --- */
+        .search-box { 
+            display: flex;
+            gap: 12px; 
+            margin-top: 8px; 
+        }
+        
+        .search-box input { 
+            flex: 1; 
+            padding: 12px 16px; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 8px; 
+            font-size: 0.95rem;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .search-box input:focus { 
+            border-color: var(--primary-blue, #002d62); 
+            box-shadow: 0 0 0 3px rgba(0, 45, 98, 0.1);
+        }
+
+        .btn-search {
+            padding: 12px 24px;
+            background: var(--primary-blue, #002d62); 
+            color: #ffffff; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            display: flex;
+            align-items: center; 
+            justify-content: center;
+            gap: 8px; 
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn-search:hover { 
+            background: var(--secondary-blue, #004b93); 
+        }
+
+        /* --- RESULT TRACKING GRID --- */
+        .info-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 24px; 
+            margin-bottom: 24px;
+        }
+
+        .info-row { 
+            display: flex; 
+            justify-content: space-between; 
+            margin-bottom: 14px; 
+            font-size: 0.9rem; 
+        }
+
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label { 
+            color: #64748b; 
+            margin: 0;
+        }
+
+        .info-value { 
+            font-weight: 600; 
+            color: #1e293b;
+            margin: 0;
+        }
+
+        /* --- STEPPER HORIZONTAL PROGRESS --- */
+        .stepper { 
+            display: flex;
+            justify-content: space-between; 
+            position: relative; 
+            margin: 30px 0 10px 0; 
+        }
+
+        .stepper::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #e2e8f0;
+            z-index: 1;
+        }
+
+        .step { 
+            text-align: center; 
+            z-index: 2; 
+            flex: 1; 
+            position: relative; 
+        }
+
+        .step-icon { 
+            width: 42px; 
+            height: 42px; 
+            background: #f1f5f9; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin: 0 auto 10px; 
+            color: #94a3b8; 
+            border: 3px solid #ffffff;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .step.active .step-icon {
+            background: #10b981; 
+            color: #ffffff; 
+            box-shadow: 0 0 0 4px #d1fae5;
+        }
+
+        .step-label { 
+            font-size: 0.75rem; 
+            font-weight: 600; 
+            color: #94a3b8; 
+        }
+
+        .step.active .step-label { 
+            color: #10b981; 
+        }
+
+        /* --- TIMELINE VERTICAL JOURNEY --- */
+        .timeline-container {
+            position: relative;
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: #e2e8f0;
+        }
+
+        .timeline-item-vertical { 
+            position: relative;
+            padding-bottom: 20px;
+            display: grid;
+            grid-template-columns: 150px 1fr 120px;
+            gap: 16px;
+        }
+
+        .timeline-item-vertical:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item-vertical::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            border: 2px solid #ffffff;
+            z-index: 2;
+        }
+
+        .timeline-item-vertical:first-child::before {
+            background: #10b981;
+            box-shadow: 0 0 0 3px #d1fae5;
+        }
+
+        .time-col { 
+            color: #64748b; 
+            font-size: 0.8rem; 
+            font-weight: 600;
+        }
+        
+        .status-col strong { 
+            color: var(--primary-blue, #002d62); 
+            display: block; 
+            margin-bottom: 4px; 
+            font-size: 0.9rem;
+        }
+        
+        .status-col p { 
+            font-size: 0.85rem; 
+            color: #334155; 
+            margin: 0;
+        }
+        
+        .loc-col { 
+            text-align: right; 
+            color: #64748b; 
+            font-size: 0.8rem; 
+            font-style: italic;
+        }
+
+        /* --- ALERT ERROR --- */
+        .alert-danger {
+            background-color: var(--danger-subtle);
+            color: var(--text-danger);
+            border: 1px solid #fca5a5;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 992px) {
+            .do-grid-container,
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .timeline-item-vertical {
+                grid-template-columns: 1fr;
+                gap: 6px;
+                padding-bottom: 24px;
+            }
+            .loc-col {
+                text-align: left;
+                font-size: 0.75rem;
+            }
+            .stepper {
+                overflow-x: auto;
+                padding-bottom: 12px;
+                gap: 16px;
+            }
+            .stepper::before {
+                min-width: 500px;
+            }
+            .step {
+                min-width: 80px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .search-box {
+                flex-direction: column;
+            }
+            .btn-search {
+                width: 100%;
+            }
+            .header-section h2 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script> 
+    <script src="js/data.js"></script>
+    <script src="js/components.js"></script>
+</head>
+
+<body>
+    <!-- Mobile Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div id="app" v-cloak>
+        <div class="app-wrapper">
+            <!-- SIDEBAR CONTAINER -->
+            <div id="sidebar-container"></div>
+
+            <!-- MAIN CONTENT AREA -->
+            <main class="main-content" id="mainContent">
+                
+                <!-- TOPBAR CONTAINER -->
+                <div id="topbar-container"></div>
+
+                <!-- DASHBOARD CONTENT -->
+                <section class="content-body">
+
+                    <!-- Header -->
+                    <div class="header-section">
+                        <h2>
+                            <i class="fa-solid fa-truck-fast"></i> Lacak & Terbitkan DO Paket Bahan Ajar
+                        </h2>
+                        <p>Kelola pembuatan Manifest Delivery Order secara otomatis berbasis run-time tahun.</p>
+                    </div>
+
+                    <!-- Alert Sukses DO -->
+                    <div v-if="orderSuksesDO" class="alert-success-custom">
+                        <h4>
+                            <i class="fa-solid fa-circle-check"></i> Pengiriman Berhasil Didaftarkan!
+                        </h4>
+                        <p>
+                            Manifest baru berhasil dicatat. Silakan salin nomor DO berikut untuk melacak detail riwayat ekspedisi di bawah:
+                        </p>
+                        <div>
+                            <span class="do-badge-display">
+                                {{ orderSuksesDO }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Grid Pembuatan & Daftar DO -->
+                    <div class="do-grid-container">
+                        <!-- Form Buat DO -->
+                        <div class="card">
+                            <h4 class="card-title">
+                                <i class="fa-solid fa-file-invoice"></i> Buat Surat Jalan DO
+                            </h4>
+                            
+                            <form @submit.prevent="generateDO">
+                                <div class="form-group">
+                                    <label>Nomor DO (Otomatis)</label>
+                                    <input type="text" :value="autoDoNumber" disabled class="form-control form-control-disabled">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>NIM Mahasiswa</label>
+                                    <input type="text" v-model="formDO.nim" placeholder="Isi 9 Digit Angka NIM" class="form-control">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Nama Lengkap</label>
+                                    <input type="text" v-model="formDO.nama" placeholder="Nama Penerima Paket" class="form-control">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Ekspedisi Pengiriman</label>
+                                    <select v-model="formDO.ekspedisi" class="form-control">
+                                        <option value="">-- Pilih Ekspedisi --</option>
+                                        <option v-for="kurir in pengirimanList" :key="kurir.kode" :value="kurir.nama">{{ kurir.nama }}</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Paket Bahan Ajar</label>
+                                    <select v-model="formDO.selectedPaket" class="form-control">
+                                        <option value="">-- Pilih Kode Paket --</option>
+                                        <option v-for="p in paket" :key="p.kode" :value="p.kode">{{ p.kode }} - {{ p.nama }}</option>
+                                    </select>
+                                </div>
+
+                                <div v-if="paketDetail" class="paket-detail-box">
+                                    <strong><i class="fa-solid fa-list-check"></i> Daftar Buku di Dalam Paket:</strong>
+                                    <ul>
+                                        <li v-for="buku in paketDetail.isi" :key="buku">Mata Kuliah: {{ buku }}</li>
+                                    </ul>
+                                    <div style="border-top: 1px solid #cbd5e1; padding-top: 8px; margin-top: 8px;">
+                                        <strong>Tarif Paket:</strong> <span style="color: var(--primary-blue, #002d62); font-weight: 700;">Rp {{ paketDetail.harga.toLocaleString() }}</span>
+                                    </div>
+                                </div>
+
+                                <div v-if="errTrack" class="alert-danger">
+                                    <i class="fa-solid fa-circle-xmark"></i> <span>{{ errTrack }}</span>
+                                </div>
+
+                                <button type="submit" class="btn-action">
+                                    <i class="fa-solid fa-paper-plane"></i> Daftarkan Pengiriman
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Daftar Nomor DO Terkini -->
+                        <div class="card">
+                            <h4 class="card-title"><i class="fa-solid fa-box"></i> Daftar Nomor DO</h4>
+
+                            <div id="orderTrackList">
+                                <div class="order-item" v-for="(item, codeDo) in tracking" :key="codeDo">
+                                    <div class="order-right">
+                                        <div class="order-icon"><i class="fa-solid fa-box"></i></div>
+                                        <div class="order-info">
+                                            <strong>{{ codeDo }}</strong>
+                                            <p>{{ item.perusahaanEkspedisi }} - {{ item.ekspedisi }} | {{ item.paket }}</p>
+                                            <p><small>{{ item.tanggalKirim }}</small></p>
+                                        </div>
+                                    </div>
+                                    <span class="status-badge" :style="{ backgroundColor: item.color + '15', color: item.color }">
+                                        {{ item.status }}
+                                    </span>
+                                </div>
+                            </div>
+                            <a href="#" class="lihat-semua">Lihat Semua Daftar</a>
+                        </div>
+                    </div>
+
+                    <!-- Search Card -->
+                    <div class="card">
+                        <label class="card-title"><i class="fa-solid fa-magnifying-glass"></i> Lacak Nomor Delivery Order</label>
+                        <div class="search-box">
+                            <input type="text" v-model="inputSearchDO" placeholder="Masukkan nomor DO Anda (Contoh: DO2026-001)">
+                            <button class="btn-search" @click="handleVueTracking">Cari</button>
+                        </div>
+                    </div>
+
+                    <!-- Result Area (Hidden by Default) -->
+                    <div id="trackingResult" v-if="activeTrackingResult" style="display: block; animation: fadeIn 0.4s ease;">
+                        <div class="info-grid">
+                            <!-- Informasi Penerima -->
+                            <div class="card">
+                                <div class="card-title"><i class="fa-solid fa-user"></i> Informasi Penerima</div>
+                                <div style="display: flex; gap: 16px;">
+                                    <div style="color: var(--primary-blue, #002d62); font-size: 2.2rem; line-height: 1;"><i class="fa-solid fa-circle-user"></i></div>
+                                    <div>
+                                        <p class="info-label">Nama Mahasiswa / NIM</p>
+                                        <p class="info-value" style="font-size: 1.05rem; margin-bottom: 12px;">
+                                            {{ activeTrackingResult.nama }} - {{ activeTrackingResult.nim }}
+                                        </p>
+                                        <p class="info-label"><i class="fa-solid fa-location-dot"></i> Alamat Pengiriman</p>
+                                        <p class="info-value" style="font-size: 0.88rem; font-weight: 400; line-height: 1.5; margin-top: 4px;">
+                                            Jl. Pendidikan No. 45, RT 03/RW 02, Kel. Margahayu, Kec. Bekasi Timur, Kota Bekasi, Jawa Barat 17113
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ringkasan Order -->
+                            <div class="card">
+                                <div class="card-title"><i class="fa-solid fa-receipt"></i> Ringkasan Order</div>
+                                <div class="info-row">
+                                    <span class="info-label">Nomor DO</span>
+                                    <span class="info-value" style="color: var(--primary-blue, #002d62); font-weight:700;">{{ activeTrackingResult.no_do }}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Tanggal Order Masuk</span>
+                                    <span class="info-value">{{ activeTrackingResult.tanggalKirim }}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Layanan Kurir</span>
+                                    <span class="info-value">{{ activeTrackingResult.perusahaanEkspedisi }} ({{ activeTrackingResult.ekspedisi }})</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Paket Buku</span>
+                                    <span class="info-value">{{ activeTrackingResult.paket }}</span>
+                                </div>
+                                <div class="info-row" style="border-top:1px dashed #cbd5e1; padding-top:12px; margin-top:12px;">
+                                    <span class="info-label">Total Tagihan</span>
+                                    <span class="info-value" style="font-weight:700; color:#10b981; font-size: 1.05rem;">
+                                        Rp {{ activeTrackingResult.total.toLocaleString('id-ID') }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Progress Status Stepper -->
+                        <div class="card">
+                            <div class="card-title"><i class="fa-solid fa-route"></i> Status Pengiriman</div>
+                            <div class="stepper">
+                                <div class="step" :class="{ active: activeTrackingResult.status_step >= 1 }">
+                                    <div class="step-icon"><i class="fa-solid fa-receipt"></i></div>
+                                    <div class="step-label">Diterima</div>
+                                </div>
+                                <div class="step" :class="{ active: activeTrackingResult.status_step >= 2 }">
+                                    <div class="step-icon"><i class="fa-solid fa-box"></i></div>
+                                    <div class="step-label">Diproses</div>
+                                </div>
+                                <div class="step" :class="{ active: activeTrackingResult.status_step >= 3 }">
+                                    <div class="step-icon"><i class="fa-solid fa-truck"></i></div>
+                                    <div class="step-label">Dikirim</div>
+                                </div>
+                                <div class="step" :class="{ active: activeTrackingResult.status_step >= 4 }">
+                                    <div class="step-icon"><i class="fa-solid fa-house-chimney-user"></i></div>
+                                    <div class="step-label">Kurir Lokal</div>
+                                </div>
+                                <div class="step" :class="{ active: activeTrackingResult.status_step >= 5 }">
+                                    <div class="step-icon"><i class="fa-solid fa-circle-check"></i></div>
+                                    <div class="step-label">Selesai</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Riwayat Perjalanan Paket -->
+                        <div class="card">
+                            <div class="card-title"><i class="fa-solid fa-clock-rotate-left"></i> Riwayat Perjalanan Paket</div>
+                            <div class="timeline-container">
+                                <div class="timeline-item-vertical" v-for="log in activeTrackingResult.perjalanan">
+                                    <div class="time-col">{{ log.waktu }}</div>
+                                    <div class="status-col">
+                                        <strong>{{ activeTrackingResult.status }}</strong>
+                                        <p>{{ log.keterangan }}</p>
+                                    </div>
+                                    <div class="loc-col">SITTA Server</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- FOOTER CONTAINER -->
+                <div id="footer-container"></div>
+                
+            </main>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script src="js/tracking-app.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

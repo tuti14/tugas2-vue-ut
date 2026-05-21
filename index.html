@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masuk ke SITTA - Universitas Terbuka</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        body {
+            background-color: var(--primary-blue);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        /* --- CONTAINER UTAMA --- */
+        .app-container {
+            width: 100%;
+            max-width: 1100px;
+            min-height: 650px;
+            background: var(--bg-white);
+            border-radius: 24px;
+            display: flex;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* --- HERO SECTION (KIRI) --- */
+        .hero-section {
+            flex: 1.2;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: var(--text-white);
+            position: relative;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -10%; right: -10%;
+            width: 300px; height: 300px;
+            background: rgba(var(--white-rgb), 0.03);
+            border-radius: 50%;
+        }
+
+        .hero-logo { margin-bottom: 40px; }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            line-height: 1;
+            margin-bottom: 10px;
+            color: var(--text-white);
+        }
+
+        .hero-content h3 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--accent-yellow);
+            margin-bottom: 20px;
+        }
+
+        .hero-divider {
+            width: 60px; height: 4px;
+            background: var(--accent-yellow);
+            border-radius: 2px;
+            margin-bottom: 30px;
+        }
+
+        .hero-content p {
+            font-size: 1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+            max-width: 400px;
+            color: var(--text-white);
+        }
+
+        .hero-illustration {
+            margin-top: 50px;
+            text-align: center;
+        }
+        
+        .hero-illustration img {
+            max-width: 80%;
+            filter: drop-shadow(0 10px 20px rgba(var(--black-rgb), 0.2));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* --- LOGIN SECTION (KANAN) --- */
+        .login-section {
+            flex: 1;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--bg-white);
+        }
+
+        .login-header { text-align: center; margin-bottom: 40px; }
+        .login-header h2 { font-size: 1.8rem; color: var(--primary-blue); margin-bottom: 8px; }
+        .login-header p { color: var(--secondary); font-size: 0.95rem; }
+
+        /* FORM STYLING */
+        .form-group { margin-bottom: 24px; }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+        }
+
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-container i {
+            position: absolute;
+            left: 16px;
+            color: var(--secondary);
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .input-container input {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            outline: none;
+            font-size: 0.95rem;
+            color: var(--text-body);
+            transition: var(--transition);
+        }
+
+        .input-container input:focus {
+            border-color: var(--primary-blue);
+            background: var(--light-subtle);
+        }
+
+        .input-container input:focus + i {
+            color: var(--primary-blue);
+        }
+
+        .toggle-icon {
+            left: auto !important;
+            right: 16px;
+            cursor: pointer;
+            color: var(--secondary);
+        }
+
+        .toggle-icon:hover { 
+            color: var(--primary-blue); 
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary-blue);
+            color: var(--text-white);
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-action:hover {
+            background: var(--secondary-blue);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* DIVIDER & LINKS */
+        .divider-container {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--border-dark-subtle);
+        }
+
+        .divider-container::before, .divider-container::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .divider-container span {
+            padding: 0 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--secondary);
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a {
+            color: var(--primary-blue);
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .footer-links a:hover { 
+            color: var(--secondary-blue); 
+        }
+
+        .v-line { 
+            width: 1px; 
+            height: 16px; 
+            background: var(--border-color); 
+        }
+
+        .secure-badge {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        /* --- MODAL STYLING --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 45, 98, 0.6);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1100;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--bg-white);
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+            border-radius: 24px;
+            position: relative;
+            box-shadow: var(--shadow-lg);
+            animation: modalIn 0.3s ease-out;
+        }
+
+        @keyframes modalIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: none; border: none;
+            font-size: 1.5rem; color: var(--secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover { color: var(--primary-blue); }
+
+        #forgotPasswordContent .login-header h2,
+        #registerContent .login-header h2 {
+            font-size: 1.5rem;
+        }
+
+        #forgotPasswordContent .login-header p,
+        #registerContent .login-header p {
+            font-size: 0.8rem;
+        }
+
+        #daftarAkunForm .overflow-form {
+            max-height: 150px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        /* Custom Scrollbar for Modal Form */
+        #daftarAkunForm .overflow-form::-webkit-scrollbar { width: 5px; }
+        #daftarAkunForm .overflow-form::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+
+        /* --- MEDIA QUERIES --- */
+        @media (max-width: 480px) {
+            .modal-content {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+                max-width: 450px;
+                min-height: auto;
+            }
+            .hero-section { padding: 40px 20px; text-align: center; align-items: center; }
+            .hero-illustration { display: none; }
+            .login-section { padding: 40px 20px; }
+            .hero-divider { margin: 0 auto 20px auto; }
+        }
+
+        @media (min-width: 1024px) {
+            #forgotPasswordContent .login-header p,
+            #registerContent .login-header p {
+                font-size: 0.9rem;
+            }
+
+            #forgotPasswordContent .login-header h2,
+            #registerContent .login-header h2 {
+                font-size: 1.8rem;
+            }
+
+            #daftarAkunForm .overflow-form {
+                max-height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Left Side: Hero -->
+        <section class="hero-section">
+            <div class="hero-logo">
+                <img src="assets/logo-putih.png" alt="Logo UT" width="70" onerror="this.style.display='none'">
+            </div>
+            <div class="hero-content">
+                <h1>SITTA</h1>
+                <h3>Sistem Informasi Terintegrasi Bahan Ajar</h3>
+                <div class="hero-divider"></div>
+                <p>Akses cepat dan mudah untuk pemesanan serta distribusi materi akademik Universitas Terbuka.</p>
+            </div>
+            <div class="hero-illustration">
+                <img src="assets/books.png" alt="Illustration" width="280">
+            </div>
+        </section>
+
+        <!-- Right Side: Login -->
+        <main class="login-section">
+            <div class="login-header">
+                <h2>Selamat Datang</h2>
+                <p>Silakan masuk menggunakan akun Anda</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Alamat Email</label>
+                    <div class="input-container">
+                        <i class="fa-regular fa-envelope"></i>
+                        <input type="email" id="email" placeholder="contoh@ecampus.ut.ac.id" autocomplete="off" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Kata Sandi</label>
+                    <div class="input-container">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="password" placeholder="••••••••" required>
+                        <i class="fa-regular fa-eye-slash toggle-icon" id="togglePassword"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-action btn-login">Masuk Sekarang</button>
+            </form>
+
+            <div class="divider-container">
+                <span>atau</span>
+            </div>
+
+            <div class="footer-links">
+                <a href="javascript:void(0)" onclick="modalLupaPassword()"><i class="fa-solid fa-key"></i> Lupa Password?</a>
+                <div class="v-line"></div>
+                <a href="javascript:void(0)" onclick="modalDaftarAkun()"><i class="fa-solid fa-user-plus"></i> Daftar Akun</a>
+            </div>
+
+            <div class="secure-badge">
+                <i class="fa-solid fa-circle-check"></i> Akses aman dan terpercaya
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Container -->
+    <div id="authModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModalBtn">&times;</button>
+            
+            <!-- Konten Lupa Password -->
+            <div id="forgotPasswordContent" class="modal-body" style="display: none;">
+                <div class="login-header">
+                    <h2>Lupa Kata Sandi?</h2>
+                    <p>Masukkan email Anda untuk pemulihan</p>
+                </div>
+                <form id="lupaPasswordForm">
+                    <div class="form-group">
+                        <label>Alamat Email</label>
+                        <div class="input-container">
+                            <i class="fa-regular fa-envelope"></i>
+                            <input type="email" id="emailLP" placeholder="contoh@ecampus.ut.ac.id" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-action btn-lupaPassword">Kirim Link Pemulihan</button>
+                </form>
+            </div>
+
+            <!-- Konten Daftar Akun -->
+            <div id="registerContent" class="modal-body" style="display: none;">
+                <div class="login-header">
+                    <h2>Daftar Akun Baru</h2>
+                    <p>Lengkapi data untuk akses SITTA</p>
+                </div>
+                <form id="daftarAkunForm">
+                    <div class="overflow-form">
+                        <div class="form-group">
+                            <label>Nama Lengkap</label>
+                            <div class="input-container">
+                                <i class="fa-regular fa-user"></i>
+                                <input type="text" id="namaDA" placeholder="Nama sesuai KTM" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>NIM</label>
+                            <div class="input-container">
+                                <i class="fa-solid fa-id-card"></i>
+                                <input type="text" id="nimDA" placeholder="Nomor Induk Mahasiswa" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Universitas</label>
+                            <div class="input-container">
+                                <i class="fa-regular fa-envelope"></i>
+                                <input type="email" id="emailDA" placeholder="contoh@ecampus.ut.ac.id" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Kata Sandi</label>
+                            <div class="input-container">
+                                <i class="fa-solid fa-lock"></i>
+                                <input type="password" id="passwordDA" placeholder="••••••••" required>
+                                <i class="fa-regular fa-eye-slash toggle-icon" id="togglePasswordDA"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Konfirmasi Kata Sandi</label>
+                            <div class="input-container">
+                                <i class="fa-solid fa-lock"></i>
+                                <input type="password" id="cpasswordDA" placeholder="••••••••" required>
+                                <i class="fa-regular fa-eye-slash toggle-icon" id="toggleCPasswordDA"></i>
+                            </div>
+                        </div>
+                    </div>                  
+                    <button type="submit" class="btn-action btn-daftarAkun">Daftar Sekarang</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('authModal');
+        const forgotContent = document.getElementById('forgotPasswordContent');
+        const registerContent = document.getElementById('registerContent');
+        const closeModal = document.getElementById('closeModalBtn');
+
+        window.modalLupaPassword = function() {
+            modal.style.display = 'flex';
+            forgotContent.style.display = 'block';
+            registerContent.style.display = 'none';
+        };
+
+        window.modalDaftarAkun = function() {
+            modal.style.display = 'flex';
+            registerContent.style.display = 'block';
+            forgotContent.style.display = 'none';
+        };
+
+        // Tutup Modal
+        closeModal.onclick = () => { modal.style.display = 'none'; };
+
+        // Tutup jika klik di luar box modal
+        window.onclick = (event) => {
+            if (event.target == modal) { modal.style.display = 'none'; }
+        };
+    });
+    </script>
+</body>
+</html>
